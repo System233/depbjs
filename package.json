@@ -13,7 +13,7 @@
 		"test": "node ./dist/cjs/main.js -i ./tests/test.js -o ./tests/output.proto",
 		"clean": "rm -rf dist",
 		"main": "node ./dist/cjs/main.js",
-		"build": "npm run clean&&npm run build:cjs&&npm run build:esm",
+		"build": "npm run build:cjs&&npm run build:esm",
 		"build:cjs": "npx tsc",
 		"build:esm": "npx tsc -p tsconfig.esm.json"
 	},
