@@ -304,7 +304,7 @@ export const ToProtoString = (packageName: string, module: Record<string, Protob
     const newline = space ? '\n' : '';
     const indent = newline + Array.from({ length: space }, () => ' ').join('');
     return [
-        `syntax = "proto3"\npackage ${packageName};`,
+        `syntax = "proto3";\npackage ${packageName};`,
         Object.entries(module).map(([name, data]) => {
             if (data.type == 'message') {
                 return `message ${name} {${indent}${data.fields.map(field => `${field.type} ${field.name} = ${field.id};`).join(indent)
