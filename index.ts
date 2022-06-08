@@ -304,7 +304,7 @@ export const ToProtoString = (packageName: string, module: Record<string, Protob
     const newline = space ? '\n' : '';
     const indent = newline + Array.from({ length: space }, () => ' ').join('');
     return [
-        `package ${packageName};`,
+        `syntax = "proto3"\npackage ${packageName};`,
         Object.entries(module).map(([name, data]) => {
             if (data.type == 'message') {
                 return `message ${name} {${indent}${data.fields.map(field => `${field.type} ${field.name} = ${field.id};`).join(indent)
@@ -317,7 +317,3 @@ export const ToProtoString = (packageName: string, module: Record<string, Protob
     ].flat().join(newline + newline);
 }
 
-// (async () => {
-//     const module=espree.parse(await readFile('./test2.js','utf-8'),{ecmaVersion:'latest'});
-//     console.log(SearchModule(module, 1000));
-// })();
