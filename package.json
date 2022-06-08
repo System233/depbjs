@@ -1,0 +1,43 @@
+{
+	"name": "depbjs",
+	"displayName": "Protobufjs Decompiler",
+	"description": "A Simple Decompiler for Protobufjs.",
+	"version": "0.0.1",
+	"main": "./dist/cjs/index.js",
+	"module": "./dist/esm/index.js",
+	"types": "./index.ts",
+	"bin": {
+		"depbjs": "./dist/cjs/main.js"
+	},
+	"scripts": {
+		"test": "node ./dist/cjs/main.js -i ./tests/test.js -o ./tests/output.proto",
+		"clean": "rm -rf dist",
+		"main": "node ./dist/cjs/main.js",
+		"build": "npm run build:cjs&&npm run build:esm",
+		"build:cjs": "npx tsc",
+		"build:esm": "npx tsc -p tsconfig.esm.json"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/System233/depbjs.git"
+	},
+	"keywords": [
+		"depbjs",
+		"decompiler",
+		"protobufjs"
+	],
+	"author": "System233",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/System233/depbjs/issues"
+	},
+	"homepage": "https://github.com/System233/depbjs#readme",
+	"dependencies": {
+		"espree": "^9.3.2",
+		"protobufjs": "^6.11.3"
+	},
+	"devDependencies": {
+		"@types/estree": "^0.0.51",
+		"@types/node": "^17.0.41"
+	}
+}
