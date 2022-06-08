@@ -2,7 +2,7 @@
 	"name": "depbjs",
 	"displayName": "Protobufjs Decompiler",
 	"description": "A Simple Decompiler for Protobufjs.",
-	"version": "0.0.4",
+	"version": "0.0.3",
 	"main": "./dist/cjs/index.js",
 	"module": "./dist/esm/index.js",
 	"types": "./index.ts",
@@ -13,7 +13,7 @@
 		"test": "node ./dist/cjs/main.js -i ./tests/test.js -o ./tests/output.proto",
 		"clean": "rm -rf dist",
 		"main": "node ./dist/cjs/main.js",
-		"build": "npm run build:cjs&&npm run build:esm",
+		"build": "npm run clean&&npm run build:cjs&&npm run build:esm",
 		"build:cjs": "npx tsc",
 		"build:esm": "npx tsc -p tsconfig.esm.json"
 	},
