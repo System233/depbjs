@@ -1,0 +1,37 @@
+// test2.proto
+package testPackage2;
+syntax = "proto3";
+
+message Test2Msg{
+    fixed32 fix32=1;
+    fixed64 fix64=2;
+    double f64=3;
+    sint32 si32=32;
+    sint64 si64=64;
+    sfixed32 sf32=16;
+    sfixed64 sf64=17;
+};
+enum Test2Enum{
+    test=1;
+    e2=2;
+    e3=3;
+};
+
+message Test2Nested{
+    Test2Msg msg=1;
+    Test2Enum enm=2;
+    enum NestedEnum{
+        ie1=1;
+        ie2=2;
+    };
+    message NestedMsg{
+        int32 i32=1;
+        int64  i64=2;
+    };
+    NestedEnum ie=3;
+    NestedMsg im=4;
+    message verify{
+        int32 testverify=1;
+    };
+    verify testV=5;
+};

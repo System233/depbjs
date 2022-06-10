@@ -1,0 +1,20 @@
+
+
+package test;
+syntax = "proto3";
+
+message Msg{
+    enum verify{
+        verify=1;
+    }
+    message encode{
+        int32 encode=1;
+    }
+    verify v1=1;
+    encode e1=2;
+
+};
+
+enum Enum{
+    E1=1;
+};

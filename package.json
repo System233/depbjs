@@ -10,7 +10,7 @@
 		"depbjs": "./dist/cjs/main.js"
 	},
 	"scripts": {
-		"test": "node ./dist/cjs/main.js -i ./tests/test.js -o ./tests/output.proto",
+		"test": "node ./dist/cjs/main.js ./tests/test.js -o ./tests/output.proto",
 		"clean": "rm -rf dist",
 		"main": "node ./dist/cjs/main.js",
 		"build": "npm run build:cjs&&npm run build:esm",

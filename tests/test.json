@@ -1,0 +1,186 @@
+{
+  "nested": {
+    "test": {
+      "nested": {
+        "Msg": {
+          "fields": {
+            "v1": {
+              "type": "verify",
+              "id": 1
+            },
+            "e1": {
+              "type": "encode",
+              "id": 2
+            }
+          },
+          "nested": {
+            "verify": {
+              "values": {
+                "verify": 1
+              }
+            },
+            "encode": {
+              "fields": {
+                "encode": {
+                  "type": "int32",
+                  "id": 1
+                }
+              }
+            }
+          }
+        },
+        "Enum": {
+          "values": {
+            "E1": 1
+          }
+        }
+      }
+    },
+    "testPackage": {
+      "nested": {
+        "SubMsg": {
+          "fields": {
+            "testSubmsg": {
+              "type": "int32",
+              "id": 1
+            }
+          }
+        },
+        "TestMessage": {
+          "fields": {
+            "testField": {
+              "type": "string",
+              "id": 1
+            },
+            "i32": {
+              "type": "int32",
+              "id": 3
+            },
+            "i64": {
+              "type": "int64",
+              "id": 2
+            },
+            "str": {
+              "type": "string",
+              "id": 4
+            },
+            "f32": {
+              "type": "float",
+              "id": 5
+            },
+            "msg": {
+              "type": "SubMsg",
+              "id": 7
+            },
+            "u32x": {
+              "type": "uint32",
+              "id": 6
+            }
+          }
+        },
+        "TestEnum": {
+          "values": {
+            "Key": 1,
+            "E2": 20,
+            "XX": 3
+          }
+        }
+      }
+    },
+    "testPackage2": {
+      "nested": {
+        "Test2Msg": {
+          "fields": {
+            "fix32": {
+              "type": "fixed32",
+              "id": 1
+            },
+            "fix64": {
+              "type": "fixed64",
+              "id": 2
+            },
+            "f64": {
+              "type": "double",
+              "id": 3
+            },
+            "si32": {
+              "type": "sint32",
+              "id": 32
+            },
+            "si64": {
+              "type": "sint64",
+              "id": 64
+            },
+            "sf32": {
+              "type": "sfixed32",
+              "id": 16
+            },
+            "sf64": {
+              "type": "sfixed64",
+              "id": 17
+            }
+          }
+        },
+        "Test2Enum": {
+          "values": {
+            "test": 1,
+            "e2": 2,
+            "e3": 3
+          }
+        },
+        "Test2Nested": {
+          "fields": {
+            "msg": {
+              "type": "Test2Msg",
+              "id": 1
+            },
+            "enm": {
+              "type": "Test2Enum",
+              "id": 2
+            },
+            "ie": {
+              "type": "NestedEnum",
+              "id": 3
+            },
+            "im": {
+              "type": "NestedMsg",
+              "id": 4
+            },
+            "testV": {
+              "type": "verify",
+              "id": 5
+            }
+          },
+          "nested": {
+            "NestedEnum": {
+              "values": {
+                "ie1": 1,
+                "ie2": 2
+              }
+            },
+            "NestedMsg": {
+              "fields": {
+                "i32": {
+                  "type": "int32",
+                  "id": 1
+                },
+                "i64": {
+                  "type": "int64",
+                  "id": 2
+                }
+              }
+            },
+            "verify": {
+              "fields": {
+                "testverify": {
+                  "type": "int32",
+                  "id": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

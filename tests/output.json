@@ -1,0 +1,624 @@
+[
+    {
+        "source": ".\\\\tests\\\\test.js",
+        "module": {
+            "name": "test",
+            "type": "module",
+            "types": [
+                {
+                    "name": "Msg",
+                    "type": "message",
+                    "children": [
+                        {
+                            "type": "field",
+                            "dtype": "int32",
+                            "name": "v1",
+                            "id": 1
+                        },
+                        {
+                            "type": "field",
+                            "dtype": "encode",
+                            "name": "e1",
+                            "id": 2
+                        },
+                        {
+                            "name": "verify",
+                            "type": "enum",
+                            "children": [
+                                {
+                                    "type": "efield",
+                                    "name": "verify",
+                                    "value": 1
+                                }
+                            ]
+                        },
+                        {
+                            "name": "encode",
+                            "type": "message",
+                            "children": [
+                                {
+                                    "type": "field",
+                                    "dtype": "int32",
+                                    "name": "encode",
+                                    "id": 1
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Enum",
+                    "type": "enum",
+                    "children": [
+                        {
+                            "type": "efield",
+                            "name": "E1",
+                            "value": 1
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "source": ".\\\\tests\\\\test.js",
+        "module": {
+            "name": "testPackage",
+            "type": "module",
+            "types": [
+                {
+                    "name": "SubMsg",
+                    "type": "message",
+                    "children": [
+                        {
+                            "type": "field",
+                            "dtype": "int32",
+                            "name": "testSubmsg",
+                            "id": 1
+                        }
+                    ]
+                },
+                {
+                    "name": "TestMessage",
+                    "type": "message",
+                    "children": [
+                        {
+                            "type": "field",
+                            "dtype": "string",
+                            "name": "testField",
+                            "id": 1
+                        },
+                        {
+                            "type": "field",
+                            "dtype": "int32",
+                            "name": "i32",
+                            "id": 3
+                        },
+                        {
+                            "type": "field",
+                            "dtype": "int64",
+                            "name": "i64",
+                            "id": 2
+                        },
+                        {
+                            "type": "field",
+                            "dtype": "string",
+                            "name": "str",
+                            "id": 4
+                        },
+                        {
+                            "type": "field",
+                            "dtype": "float",
+                            "name": "f32",
+                            "id": 5
+                        },
+                        {
+                            "type": "field",
+                            "dtype": "SubMsg",
+                            "name": "msg",
+                            "id": 7
+                        },
+                        {
+                            "type": "field",
+                            "dtype": "uint32",
+                            "name": "u32x",
+                            "id": 6
+                        }
+                    ]
+                },
+                {
+                    "name": "TestEnum",
+                    "type": "enum",
+                    "children": [
+                        {
+                            "type": "efield",
+                            "name": "Key",
+                            "value": 1
+                        },
+                        {
+                            "type": "efield",
+                            "name": "E2",
+                            "value": 20
+                        },
+                        {
+                            "type": "efield",
+                            "name": "XX",
+                            "value": 3
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "source": ".\\\\tests\\\\test.js",
+        "module": {
+            "name": "testPackage2",
+            "type": "module",
+            "types": [
+                {
+                    "name": "Test2Msg",
+                    "type": "message",
+                    "children": [
+                        {
+                            "type": "field",
+                            "dtype": "fixed32",
+                            "name": "fix32",
+                            "id": 1
+                        },
+                        {
+                            "type": "field",
+                            "dtype": "fixed64",
+                            "name": "fix64",
+                            "id": 2
+                        },
+                        {
+                            "type": "field",
+                            "dtype": "double",
+                            "name": "f64",
+                            "id": 3
+                        },
+                        {
+                            "type": "field",
+                            "dtype": "sint32",
+                            "name": "si32",
+                            "id": 32
+                        },
+                        {
+                            "type": "field",
+                            "dtype": "sint64",
+                            "name": "si64",
+                            "id": 64
+                        },
+                        {
+                            "type": "field",
+                            "dtype": "sfixed32",
+                            "name": "sf32",
+                            "id": 16
+                        },
+                        {
+                            "type": "field",
+                            "dtype": "sfixed64",
+                            "name": "sf64",
+                            "id": 17
+                        }
+                    ]
+                },
+                {
+                    "name": "Test2Enum",
+                    "type": "enum",
+                    "children": [
+                        {
+                            "type": "efield",
+                            "name": "test",
+                            "value": 1
+                        },
+                        {
+                            "type": "efield",
+                            "name": "e2",
+                            "value": 2
+                        },
+                        {
+                            "type": "efield",
+                            "name": "e3",
+                            "value": 3
+                        }
+                    ]
+                },
+                {
+                    "name": "Test2Nested",
+                    "type": "message",
+                    "children": [
+                        {
+                            "type": "field",
+                            "dtype": "Test2Msg",
+                            "name": "msg",
+                            "id": 1
+                        },
+                        {
+                            "type": "field",
+                            "dtype": "int32",
+                            "name": "enm",
+                            "id": 2
+                        },
+                        {
+                            "type": "field",
+                            "dtype": "int32",
+                            "name": "ie",
+                            "id": 3
+                        },
+                        {
+                            "type": "field",
+                            "dtype": "NestedMsg",
+                            "name": "im",
+                            "id": 4
+                        },
+                        {
+                            "type": "field",
+                            "dtype": "verify",
+                            "name": "testV",
+                            "id": 5
+                        },
+                        {
+                            "name": "NestedEnum",
+                            "type": "enum",
+                            "children": [
+                                {
+                                    "type": "efield",
+                                    "name": "ie1",
+                                    "value": 1
+                                },
+                                {
+                                    "type": "efield",
+                                    "name": "ie2",
+                                    "value": 2
+                                }
+                            ]
+                        },
+                        {
+                            "name": "NestedMsg",
+                            "type": "message",
+                            "children": [
+                                {
+                                    "type": "field",
+                                    "dtype": "int32",
+                                    "name": "i32",
+                                    "id": 1
+                                },
+                                {
+                                    "type": "field",
+                                    "dtype": "int64",
+                                    "name": "i64",
+                                    "id": 2
+                                }
+                            ]
+                        },
+                        {
+                            "name": "verify",
+                            "type": "message",
+                            "children": [
+                                {
+                                    "type": "field",
+                                    "dtype": "int32",
+                                    "name": "testverify",
+                                    "id": 1
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "source": ".\\\\tests\\\\test.js",
+        "module": {
+            "name": "test",
+            "type": "module",
+            "types": [
+                {
+                    "name": "Msg",
+                    "type": "message",
+                    "children": [
+                        {
+                            "type": "field",
+                            "dtype": "int32",
+                            "name": "v1",
+                            "id": 1
+                        },
+                        {
+                            "type": "field",
+                            "dtype": "encode",
+                            "name": "e1",
+                            "id": 2
+                        },
+                        {
+                            "name": "verify",
+                            "type": "enum",
+                            "children": [
+                                {
+                                    "type": "efield",
+                                    "name": "verify",
+                                    "value": 1
+                                }
+                            ]
+                        },
+                        {
+                            "name": "encode",
+                            "type": "message",
+                            "children": [
+                                {
+                                    "type": "field",
+                                    "dtype": "int32",
+                                    "name": "encode",
+                                    "id": 1
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Enum",
+                    "type": "enum",
+                    "children": [
+                        {
+                            "type": "efield",
+                            "name": "E1",
+                            "value": 1
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "source": ".\\\\tests\\\\test.js",
+        "module": {
+            "name": "testPackage",
+            "type": "module",
+            "types": [
+                {
+                    "name": "SubMsg",
+                    "type": "message",
+                    "children": [
+                        {
+                            "type": "field",
+                            "dtype": "int32",
+                            "name": "testSubmsg",
+                            "id": 1
+                        }
+                    ]
+                },
+                {
+                    "name": "TestMessage",
+                    "type": "message",
+                    "children": [
+                        {
+                            "type": "field",
+                            "dtype": "string",
+                            "name": "testField",
+                            "id": 1
+                        },
+                        {
+                            "type": "field",
+                            "dtype": "int32",
+                            "name": "i32",
+                            "id": 3
+                        },
+                        {
+                            "type": "field",
+                            "dtype": "int64",
+                            "name": "i64",
+                            "id": 2
+                        },
+                        {
+                            "type": "field",
+                            "dtype": "string",
+                            "name": "str",
+                            "id": 4
+                        },
+                        {
+                            "type": "field",
+                            "dtype": "float",
+                            "name": "f32",
+                            "id": 5
+                        },
+                        {
+                            "type": "field",
+                            "dtype": "SubMsg",
+                            "name": "msg",
+                            "id": 7
+                        },
+                        {
+                            "type": "field",
+                            "dtype": "uint32",
+                            "name": "u32x",
+                            "id": 6
+                        }
+                    ]
+                },
+                {
+                    "name": "TestEnum",
+                    "type": "enum",
+                    "children": [
+                        {
+                            "type": "efield",
+                            "name": "Key",
+                            "value": 1
+                        },
+                        {
+                            "type": "efield",
+                            "name": "E2",
+                            "value": 20
+                        },
+                        {
+                            "type": "efield",
+                            "name": "XX",
+                            "value": 3
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "source": ".\\\\tests\\\\test.js",
+        "module": {
+            "name": "testPackage2",
+            "type": "module",
+            "types": [
+                {
+                    "name": "Test2Msg",
+                    "type": "message",
+                    "children": [
+                        {
+                            "type": "field",
+                            "dtype": "fixed32",
+                            "name": "fix32",
+                            "id": 1
+                        },
+                        {
+                            "type": "field",
+                            "dtype": "fixed64",
+                            "name": "fix64",
+                            "id": 2
+                        },
+                        {
+                            "type": "field",
+                            "dtype": "double",
+                            "name": "f64",
+                            "id": 3
+                        },
+                        {
+                            "type": "field",
+                            "dtype": "sint32",
+                            "name": "si32",
+                            "id": 32
+                        },
+                        {
+                            "type": "field",
+                            "dtype": "sint64",
+                            "name": "si64",
+                            "id": 64
+                        },
+                        {
+                            "type": "field",
+                            "dtype": "sfixed32",
+                            "name": "sf32",
+                            "id": 16
+                        },
+                        {
+                            "type": "field",
+                            "dtype": "sfixed64",
+                            "name": "sf64",
+                            "id": 17
+                        }
+                    ]
+                },
+                {
+                    "name": "Test2Enum",
+                    "type": "enum",
+                    "children": [
+                        {
+                            "type": "efield",
+                            "name": "test",
+                            "value": 1
+                        },
+                        {
+                            "type": "efield",
+                            "name": "e2",
+                            "value": 2
+                        },
+                        {
+                            "type": "efield",
+                            "name": "e3",
+                            "value": 3
+                        }
+                    ]
+                },
+                {
+                    "name": "Test2Nested",
+                    "type": "message",
+                    "children": [
+                        {
+                            "type": "field",
+                            "dtype": "Test2Msg",
+                            "name": "msg",
+                            "id": 1
+                        },
+                        {
+                            "type": "field",
+                            "dtype": "int32",
+                            "name": "enm",
+                            "id": 2
+                        },
+                        {
+                            "type": "field",
+                            "dtype": "int32",
+                            "name": "ie",
+                            "id": 3
+                        },
+                        {
+                            "type": "field",
+                            "dtype": "NestedMsg",
+                            "name": "im",
+                            "id": 4
+                        },
+                        {
+                            "type": "field",
+                            "dtype": "verify",
+                            "name": "testV",
+                            "id": 5
+                        },
+                        {
+                            "name": "NestedEnum",
+                            "type": "enum",
+                            "children": [
+                                {
+                                    "type": "efield",
+                                    "name": "ie1",
+                                    "value": 1
+                                },
+                                {
+                                    "type": "efield",
+                                    "name": "ie2",
+                                    "value": 2
+                                }
+                            ]
+                        },
+                        {
+                            "name": "NestedMsg",
+                            "type": "message",
+                            "children": [
+                                {
+                                    "type": "field",
+                                    "dtype": "int32",
+                                    "name": "i32",
+                                    "id": 1
+                                },
+                                {
+                                    "type": "field",
+                                    "dtype": "int64",
+                                    "name": "i64",
+                                    "id": 2
+                                }
+                            ]
+                        },
+                        {
+                            "name": "verify",
+                            "type": "message",
+                            "children": [
+                                {
+                                    "type": "field",
+                                    "dtype": "int32",
+                                    "name": "testverify",
+                                    "id": 1
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+]
