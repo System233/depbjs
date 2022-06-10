@@ -81,7 +81,6 @@ const showHelp=()=>{
         console.log(`\t-${name[0]} --${name}\t${value.message}\t${value.default!=null?`default=${value.default}`:''}`);
     })
     console.log('usage: depbjs input1.js input2.js ... (or pipe) -o target.proto');
-    console.log(process.env)
 }
 const getOptions=()=>{
     const set=new Set<number>();
