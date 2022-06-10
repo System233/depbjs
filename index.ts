@@ -39,7 +39,6 @@ export interface ProtobufJSON{
     source:string;
     module:ProtobufModule;
 }
-// export type ProtobufModule = Record<string,Record<string,ProtobufType>>;
 export const TopSearch = <T>(module: Program | Expression | Statement | Array<Statement | Expression>, callback: (module: Array<Statement | Expression>) => T, option?: { withArguments: boolean }): T => {
     while (true) {
         if (!Array.isArray(module)) {
@@ -315,7 +314,7 @@ export const SearchModule = (module: Program | Expression | Statement, depth: nu
     }
     const info = CheckProtobufStaticModule(module);
     const data = LoadProtobufStaticModule(module, info);
-    if (data) {
+    if (data.length) {
         return data;
     }
     return TopSearch(module, (module) => module.map(node => SearchModule(node, depth - 1)).flat(), { withArguments: true });
