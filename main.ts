@@ -7,8 +7,8 @@
 import * as espree from 'espree'
 import { readFile, writeFile } from 'fs/promises'
 import { basename, dirname } from 'path';
-import {ProtobufModule, ProtobufType, SearchModule, ToProtoString} from './index'
-import {displayName,version,description} from './package.json'
+import {ProtobufModule, SearchModule, ToProtoString} from './index'
+import {displayName,version,description,time,commit,refname} from './app.json'
 const TITLE=`This file is decompiled by depbjs v${version}.`;
 interface OptionType{
     text:string;
@@ -74,7 +74,6 @@ const OPTIONS={
     },
 };
 const showHelp=()=>{
-    console.log(`${displayName} v${version}`);
     console.log(`${description}`);
     console.log('Option:')
     Object.entries(OPTIONS as Record<string,Option>).forEach(([name,value])=>{
@@ -120,6 +119,7 @@ const getOptions=()=>{
 }
 
 const main=async()=>{
+    console.log(`${displayName} ${version} (${refname}:${commit} ${time})`);
     const {options,inputs}=getOptions();
     if(options.help){
         showHelp();

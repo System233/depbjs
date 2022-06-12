@@ -17,6 +17,7 @@
 		"clean": "rm -rf dist",
 		"main": "node ./dist/cjs/main.js",
 		"build": "npm run build:cjs&&npm run build:esm",
+		"build:app": "npx ts-node build.ts",
 		"build:cjs": "npx tsc",
 		"build:esm": "npx tsc -p tsconfig.esm.json"
 	},
