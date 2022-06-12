@@ -10,6 +10,7 @@
 		"depbjs": "./dist/cjs/main.js"
 	},
 	"scripts": {
+		"build:test":"npx pbjs ./tests/test.proto ./tests/test2.proto ./tests/test3.proto -o ./tests/test.js -w commonjs -t static-module",
 		"test": "node ./dist/cjs/main.js ./tests/test.js -o ./tests/output.proto",
 		"clean": "rm -rf dist",
 		"main": "node ./dist/cjs/main.js",

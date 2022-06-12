@@ -9,452 +9,6 @@ var $Reader = $protobuf.Reader, $Writer = $protobuf.Writer, $util = $protobuf.ut
 // Exported root namespace
 var $root = $protobuf.roots["default"] || ($protobuf.roots["default"] = {});
 
-$root.test = (function() {
-
-    /**
-     * Namespace test.
-     * @exports test
-     * @namespace
-     */
-    var test = {};
-
-    test.Msg = (function() {
-
-        /**
-         * Properties of a Msg.
-         * @memberof test
-         * @interface IMsg
-         * @property {test.Msg.verify|null} [v1] Msg v1
-         * @property {test.Msg.Iencode|null} [e1] Msg e1
-         */
-
-        /**
-         * Constructs a new Msg.
-         * @memberof test
-         * @classdesc Represents a Msg.
-         * @implements IMsg
-         * @constructor
-         * @param {test.IMsg=} [properties] Properties to set
-         */
-        function Msg(properties) {
-            if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
-                        this[keys[i]] = properties[keys[i]];
-        }
-
-        /**
-         * Msg v1.
-         * @member {test.Msg.verify} v1
-         * @memberof test.Msg
-         * @instance
-         */
-        Msg.prototype.v1 = 1;
-
-        /**
-         * Msg e1.
-         * @member {test.Msg.Iencode|null|undefined} e1
-         * @memberof test.Msg
-         * @instance
-         */
-        Msg.prototype.e1 = null;
-
-        /**
-         * Creates a new Msg instance using the specified properties.
-         * @function create
-         * @memberof test.Msg
-         * @static
-         * @param {test.IMsg=} [properties] Properties to set
-         * @returns {test.Msg} Msg instance
-         */
-        Msg.create = function create(properties) {
-            return new Msg(properties);
-        };
-
-        /**
-         * Encodes the specified Msg message. Does not implicitly {@link test.Msg.verify|verify} messages.
-         * @function encode
-         * @memberof test.Msg
-         * @static
-         * @param {test.IMsg} message Msg message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        Msg.encode = function encode(message, writer) {
-            if (!writer)
-                writer = $Writer.create();
-            if (message.v1 != null && Object.hasOwnProperty.call(message, "v1"))
-                writer.uint32(/* id 1, wireType 0 =*/8).int32(message.v1);
-            if (message.e1 != null && Object.hasOwnProperty.call(message, "e1"))
-                $root.test.Msg.encode.encode(message.e1, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
-            return writer;
-        };
-
-        /**
-         * Encodes the specified Msg message, length delimited. Does not implicitly {@link test.Msg.verify|verify} messages.
-         * @function encodeDelimited
-         * @memberof test.Msg
-         * @static
-         * @param {test.IMsg} message Msg message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        Msg.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
-        };
-
-        /**
-         * Decodes a Msg message from the specified reader or buffer.
-         * @function decode
-         * @memberof test.Msg
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @param {number} [length] Message length if known beforehand
-         * @returns {test.Msg} Msg
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        Msg.decode = function decode(reader, length) {
-            if (!(reader instanceof $Reader))
-                reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.test.Msg();
-            while (reader.pos < end) {
-                var tag = reader.uint32();
-                switch (tag >>> 3) {
-                case 1:
-                    message.v1 = reader.int32();
-                    break;
-                case 2:
-                    message.e1 = $root.test.Msg.encode.decode(reader, reader.uint32());
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
-                }
-            }
-            return message;
-        };
-
-        /**
-         * Decodes a Msg message from the specified reader or buffer, length delimited.
-         * @function decodeDelimited
-         * @memberof test.Msg
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {test.Msg} Msg
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        Msg.decodeDelimited = function decodeDelimited(reader) {
-            if (!(reader instanceof $Reader))
-                reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
-        };
-
-        /**
-         * Verifies a Msg message.
-         * @function verify
-         * @memberof test.Msg
-         * @static
-         * @param {Object.<string,*>} message Plain object to verify
-         * @returns {string|null} `null` if valid, otherwise the reason why it is not
-         */
-        Msg.verify = function verify(message) {
-            if (typeof message !== "object" || message === null)
-                return "object expected";
-            if (message.v1 != null && message.hasOwnProperty("v1"))
-                switch (message.v1) {
-                default:
-                    return "v1: enum value expected";
-                case 1:
-                    break;
-                }
-            if (message.e1 != null && message.hasOwnProperty("e1")) {
-                var error = $root.test.Msg.encode.verify(message.e1);
-                if (error)
-                    return "e1." + error;
-            }
-            return null;
-        };
-
-        /**
-         * Creates a Msg message from a plain object. Also converts values to their respective internal types.
-         * @function fromObject
-         * @memberof test.Msg
-         * @static
-         * @param {Object.<string,*>} object Plain object
-         * @returns {test.Msg} Msg
-         */
-        Msg.fromObject = function fromObject(object) {
-            if (object instanceof $root.test.Msg)
-                return object;
-            var message = new $root.test.Msg();
-            switch (object.v1) {
-            case "verify":
-            case 1:
-                message.v1 = 1;
-                break;
-            }
-            if (object.e1 != null) {
-                if (typeof object.e1 !== "object")
-                    throw TypeError(".test.Msg.e1: object expected");
-                message.e1 = $root.test.Msg.encode.fromObject(object.e1);
-            }
-            return message;
-        };
-
-        /**
-         * Creates a plain object from a Msg message. Also converts values to other types if specified.
-         * @function toObject
-         * @memberof test.Msg
-         * @static
-         * @param {test.Msg} message Msg
-         * @param {$protobuf.IConversionOptions} [options] Conversion options
-         * @returns {Object.<string,*>} Plain object
-         */
-        Msg.toObject = function toObject(message, options) {
-            if (!options)
-                options = {};
-            var object = {};
-            if (options.defaults) {
-                object.v1 = options.enums === String ? "verify" : 1;
-                object.e1 = null;
-            }
-            if (message.v1 != null && message.hasOwnProperty("v1"))
-                object.v1 = options.enums === String ? $root.test.Msg.verify[message.v1] : message.v1;
-            if (message.e1 != null && message.hasOwnProperty("e1"))
-                object.e1 = $root.test.Msg.encode.toObject(message.e1, options);
-            return object;
-        };
-
-        /**
-         * Converts this Msg to JSON.
-         * @function toJSON
-         * @memberof test.Msg
-         * @instance
-         * @returns {Object.<string,*>} JSON object
-         */
-        Msg.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-        };
-
-        /**
-         * verify enum.
-         * @name test.Msg.verify
-         * @enum {number}
-         * @property {number} verify=1 verify value
-         */
-        Msg.verify = (function() {
-            var valuesById = {}, values = Object.create(valuesById);
-            values[valuesById[1] = "verify"] = 1;
-            return values;
-        })();
-
-        Msg.encode = (function() {
-
-            /**
-             * Properties of an encode.
-             * @memberof test.Msg
-             * @interface Iencode
-             * @property {number|null} [encode] encode encode
-             */
-
-            /**
-             * Constructs a new encode.
-             * @memberof test.Msg
-             * @classdesc Represents an encode.
-             * @implements Iencode
-             * @constructor
-             * @param {test.Msg.Iencode=} [properties] Properties to set
-             */
-            function encode(properties) {
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-
-            /**
-             * encode encode.
-             * @member {number} encode
-             * @memberof test.Msg.encode
-             * @instance
-             */
-            encode.prototype.encode = 0;
-
-            /**
-             * Creates a new encode instance using the specified properties.
-             * @function create
-             * @memberof test.Msg.encode
-             * @static
-             * @param {test.Msg.Iencode=} [properties] Properties to set
-             * @returns {test.Msg.encode} encode instance
-             */
-            encode.create = function create(properties) {
-                return new encode(properties);
-            };
-
-            /**
-             * Encodes the specified encode message. Does not implicitly {@link test.Msg.encode.verify|verify} messages.
-             * @function encode
-             * @memberof test.Msg.encode
-             * @static
-             * @param {test.Msg.Iencode} message encode message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.encode != null && Object.hasOwnProperty.call(message, "encode"))
-                    writer.uint32(/* id 1, wireType 0 =*/8).int32(message.encode);
-                return writer;
-            }
-
-            /**
-             * Encodes the specified encode message, length delimited. Does not implicitly {@link test.Msg.encode.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof test.Msg.encode
-             * @static
-             * @param {test.Msg.Iencode} message encode message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            encode.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-
-            /**
-             * Decodes an encode message from the specified reader or buffer.
-             * @function decode
-             * @memberof test.Msg.encode
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {test.Msg.encode} encode
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            encode.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.test.Msg.encode();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.encode = reader.int32();
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-
-            /**
-             * Decodes an encode message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof test.Msg.encode
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {test.Msg.encode} encode
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            encode.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-
-            /**
-             * Verifies an encode message.
-             * @function verify
-             * @memberof test.Msg.encode
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            encode.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.encode != null && message.hasOwnProperty("encode"))
-                    if (!$util.isInteger(message.encode))
-                        return "encode: integer expected";
-                return null;
-            };
-
-            /**
-             * Creates an encode message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof test.Msg.encode
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {test.Msg.encode} encode
-             */
-            encode.fromObject = function fromObject(object) {
-                if (object instanceof $root.test.Msg.encode)
-                    return object;
-                var message = new $root.test.Msg.encode();
-                if (object.encode != null)
-                    message.encode = object.encode | 0;
-                return message;
-            };
-
-            /**
-             * Creates a plain object from an encode message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof test.Msg.encode
-             * @static
-             * @param {test.Msg.encode} message encode
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            encode.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.defaults)
-                    object.encode = 0;
-                if (message.encode != null && message.hasOwnProperty("encode"))
-                    object.encode = message.encode;
-                return object;
-            };
-
-            /**
-             * Converts this encode to JSON.
-             * @function toJSON
-             * @memberof test.Msg.encode
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            encode.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-
-            return encode;
-        })();
-
-        return Msg;
-    })();
-
-    /**
-     * Enum enum.
-     * @name test.Enum
-     * @enum {number}
-     * @property {number} E1=1 E1 value
-     */
-    test.Enum = (function() {
-        var valuesById = {}, values = Object.create(valuesById);
-        values[valuesById[1] = "E1"] = 1;
-        return values;
-    })();
-
-    return test;
-})();
-
 $root.testPackage = (function() {
 
     /**
@@ -664,6 +218,7 @@ $root.testPackage = (function() {
          * @property {number|null} [f32] TestMessage f32
          * @property {testPackage.ISubMsg|null} [msg] TestMessage msg
          * @property {number|null} [u32x] TestMessage u32x
+         * @property {Uint8Array|null} [byteArray] TestMessage byteArray
          */
 
         /**
@@ -738,6 +293,14 @@ $root.testPackage = (function() {
         TestMessage.prototype.u32x = 0;
 
         /**
+         * TestMessage byteArray.
+         * @member {Uint8Array} byteArray
+         * @memberof testPackage.TestMessage
+         * @instance
+         */
+        TestMessage.prototype.byteArray = $util.newBuffer([]);
+
+        /**
          * Creates a new TestMessage instance using the specified properties.
          * @function create
          * @memberof testPackage.TestMessage
@@ -775,6 +338,8 @@ $root.testPackage = (function() {
                 writer.uint32(/* id 6, wireType 0 =*/48).uint32(message.u32x);
             if (message.msg != null && Object.hasOwnProperty.call(message, "msg"))
                 $root.testPackage.SubMsg.encode(message.msg, writer.uint32(/* id 7, wireType 2 =*/58).fork()).ldelim();
+            if (message.byteArray != null && Object.hasOwnProperty.call(message, "byteArray"))
+                writer.uint32(/* id 10, wireType 2 =*/82).bytes(message.byteArray);
             return writer;
         };
 
@@ -829,6 +394,9 @@ $root.testPackage = (function() {
                     break;
                 case 6:
                     message.u32x = reader.uint32();
+                    break;
+                case 10:
+                    message.byteArray = reader.bytes();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -888,6 +456,9 @@ $root.testPackage = (function() {
             if (message.u32x != null && message.hasOwnProperty("u32x"))
                 if (!$util.isInteger(message.u32x))
                     return "u32x: integer expected";
+            if (message.byteArray != null && message.hasOwnProperty("byteArray"))
+                if (!(message.byteArray && typeof message.byteArray.length === "number" || $util.isString(message.byteArray)))
+                    return "byteArray: buffer expected";
             return null;
         };
 
@@ -927,6 +498,11 @@ $root.testPackage = (function() {
             }
             if (object.u32x != null)
                 message.u32x = object.u32x >>> 0;
+            if (object.byteArray != null)
+                if (typeof object.byteArray === "string")
+                    $util.base64.decode(object.byteArray, message.byteArray = $util.newBuffer($util.base64.length(object.byteArray)), 0);
+                else if (object.byteArray.length)
+                    message.byteArray = object.byteArray;
             return message;
         };
 
@@ -955,6 +531,13 @@ $root.testPackage = (function() {
                 object.f32 = 0;
                 object.u32x = 0;
                 object.msg = null;
+                if (options.bytes === String)
+                    object.byteArray = "";
+                else {
+                    object.byteArray = [];
+                    if (options.bytes !== Array)
+                        object.byteArray = $util.newBuffer(object.byteArray);
+                }
             }
             if (message.testField != null && message.hasOwnProperty("testField"))
                 object.testField = message.testField;
@@ -973,6 +556,8 @@ $root.testPackage = (function() {
                 object.u32x = message.u32x;
             if (message.msg != null && message.hasOwnProperty("msg"))
                 object.msg = $root.testPackage.SubMsg.toObject(message.msg, options);
+            if (message.byteArray != null && message.hasOwnProperty("byteArray"))
+                object.byteArray = options.bytes === String ? $util.base64.encode(message.byteArray, 0, message.byteArray.length) : options.bytes === Array ? Array.prototype.slice.call(message.byteArray) : message.byteArray;
             return object;
         };
 
@@ -2144,6 +1729,452 @@ $root.testPackage2 = (function() {
     })();
 
     return testPackage2;
+})();
+
+$root.test = (function() {
+
+    /**
+     * Namespace test.
+     * @exports test
+     * @namespace
+     */
+    var test = {};
+
+    test.Msg = (function() {
+
+        /**
+         * Properties of a Msg.
+         * @memberof test
+         * @interface IMsg
+         * @property {test.Msg.verify|null} [v1] Msg v1
+         * @property {test.Msg.Iencode|null} [e1] Msg e1
+         */
+
+        /**
+         * Constructs a new Msg.
+         * @memberof test
+         * @classdesc Represents a Msg.
+         * @implements IMsg
+         * @constructor
+         * @param {test.IMsg=} [properties] Properties to set
+         */
+        function Msg(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * Msg v1.
+         * @member {test.Msg.verify} v1
+         * @memberof test.Msg
+         * @instance
+         */
+        Msg.prototype.v1 = 1;
+
+        /**
+         * Msg e1.
+         * @member {test.Msg.Iencode|null|undefined} e1
+         * @memberof test.Msg
+         * @instance
+         */
+        Msg.prototype.e1 = null;
+
+        /**
+         * Creates a new Msg instance using the specified properties.
+         * @function create
+         * @memberof test.Msg
+         * @static
+         * @param {test.IMsg=} [properties] Properties to set
+         * @returns {test.Msg} Msg instance
+         */
+        Msg.create = function create(properties) {
+            return new Msg(properties);
+        };
+
+        /**
+         * Encodes the specified Msg message. Does not implicitly {@link test.Msg.verify|verify} messages.
+         * @function encode
+         * @memberof test.Msg
+         * @static
+         * @param {test.IMsg} message Msg message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        Msg.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.v1 != null && Object.hasOwnProperty.call(message, "v1"))
+                writer.uint32(/* id 1, wireType 0 =*/8).int32(message.v1);
+            if (message.e1 != null && Object.hasOwnProperty.call(message, "e1"))
+                $root.test.Msg.encode.encode(message.e1, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+            return writer;
+        };
+
+        /**
+         * Encodes the specified Msg message, length delimited. Does not implicitly {@link test.Msg.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof test.Msg
+         * @static
+         * @param {test.IMsg} message Msg message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        Msg.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a Msg message from the specified reader or buffer.
+         * @function decode
+         * @memberof test.Msg
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {test.Msg} Msg
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        Msg.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.test.Msg();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    message.v1 = reader.int32();
+                    break;
+                case 2:
+                    message.e1 = $root.test.Msg.encode.decode(reader, reader.uint32());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a Msg message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof test.Msg
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {test.Msg} Msg
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        Msg.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a Msg message.
+         * @function verify
+         * @memberof test.Msg
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        Msg.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.v1 != null && message.hasOwnProperty("v1"))
+                switch (message.v1) {
+                default:
+                    return "v1: enum value expected";
+                case 1:
+                    break;
+                }
+            if (message.e1 != null && message.hasOwnProperty("e1")) {
+                var error = $root.test.Msg.encode.verify(message.e1);
+                if (error)
+                    return "e1." + error;
+            }
+            return null;
+        };
+
+        /**
+         * Creates a Msg message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof test.Msg
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {test.Msg} Msg
+         */
+        Msg.fromObject = function fromObject(object) {
+            if (object instanceof $root.test.Msg)
+                return object;
+            var message = new $root.test.Msg();
+            switch (object.v1) {
+            case "verify":
+            case 1:
+                message.v1 = 1;
+                break;
+            }
+            if (object.e1 != null) {
+                if (typeof object.e1 !== "object")
+                    throw TypeError(".test.Msg.e1: object expected");
+                message.e1 = $root.test.Msg.encode.fromObject(object.e1);
+            }
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a Msg message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof test.Msg
+         * @static
+         * @param {test.Msg} message Msg
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        Msg.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults) {
+                object.v1 = options.enums === String ? "verify" : 1;
+                object.e1 = null;
+            }
+            if (message.v1 != null && message.hasOwnProperty("v1"))
+                object.v1 = options.enums === String ? $root.test.Msg.verify[message.v1] : message.v1;
+            if (message.e1 != null && message.hasOwnProperty("e1"))
+                object.e1 = $root.test.Msg.encode.toObject(message.e1, options);
+            return object;
+        };
+
+        /**
+         * Converts this Msg to JSON.
+         * @function toJSON
+         * @memberof test.Msg
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        Msg.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * verify enum.
+         * @name test.Msg.verify
+         * @enum {number}
+         * @property {number} verify=1 verify value
+         */
+        Msg.verify = (function() {
+            var valuesById = {}, values = Object.create(valuesById);
+            values[valuesById[1] = "verify"] = 1;
+            return values;
+        })();
+
+        Msg.encode = (function() {
+
+            /**
+             * Properties of an encode.
+             * @memberof test.Msg
+             * @interface Iencode
+             * @property {number|null} [encode] encode encode
+             */
+
+            /**
+             * Constructs a new encode.
+             * @memberof test.Msg
+             * @classdesc Represents an encode.
+             * @implements Iencode
+             * @constructor
+             * @param {test.Msg.Iencode=} [properties] Properties to set
+             */
+            function encode(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * encode encode.
+             * @member {number} encode
+             * @memberof test.Msg.encode
+             * @instance
+             */
+            encode.prototype.encode = 0;
+
+            /**
+             * Creates a new encode instance using the specified properties.
+             * @function create
+             * @memberof test.Msg.encode
+             * @static
+             * @param {test.Msg.Iencode=} [properties] Properties to set
+             * @returns {test.Msg.encode} encode instance
+             */
+            encode.create = function create(properties) {
+                return new encode(properties);
+            };
+
+            /**
+             * Encodes the specified encode message. Does not implicitly {@link test.Msg.encode.verify|verify} messages.
+             * @function encode
+             * @memberof test.Msg.encode
+             * @static
+             * @param {test.Msg.Iencode} message encode message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.encode != null && Object.hasOwnProperty.call(message, "encode"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).int32(message.encode);
+                return writer;
+            }
+
+            /**
+             * Encodes the specified encode message, length delimited. Does not implicitly {@link test.Msg.encode.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof test.Msg.encode
+             * @static
+             * @param {test.Msg.Iencode} message encode message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            encode.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes an encode message from the specified reader or buffer.
+             * @function decode
+             * @memberof test.Msg.encode
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {test.Msg.encode} encode
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            encode.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.test.Msg.encode();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.encode = reader.int32();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes an encode message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof test.Msg.encode
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {test.Msg.encode} encode
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            encode.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies an encode message.
+             * @function verify
+             * @memberof test.Msg.encode
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            encode.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.encode != null && message.hasOwnProperty("encode"))
+                    if (!$util.isInteger(message.encode))
+                        return "encode: integer expected";
+                return null;
+            };
+
+            /**
+             * Creates an encode message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof test.Msg.encode
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {test.Msg.encode} encode
+             */
+            encode.fromObject = function fromObject(object) {
+                if (object instanceof $root.test.Msg.encode)
+                    return object;
+                var message = new $root.test.Msg.encode();
+                if (object.encode != null)
+                    message.encode = object.encode | 0;
+                return message;
+            };
+
+            /**
+             * Creates a plain object from an encode message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof test.Msg.encode
+             * @static
+             * @param {test.Msg.encode} message encode
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            encode.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults)
+                    object.encode = 0;
+                if (message.encode != null && message.hasOwnProperty("encode"))
+                    object.encode = message.encode;
+                return object;
+            };
+
+            /**
+             * Converts this encode to JSON.
+             * @function toJSON
+             * @memberof test.Msg.encode
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            encode.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            return encode;
+        })();
+
+        return Msg;
+    })();
+
+    /**
+     * Enum enum.
+     * @name test.Enum
+     * @enum {number}
+     * @property {number} E1=1 E1 value
+     */
+    test.Enum = (function() {
+        var valuesById = {}, values = Object.create(valuesById);
+        values[valuesById[1] = "E1"] = 1;
+        return values;
+    })();
+
+    return test;
 })();
 
 module.exports = $root;

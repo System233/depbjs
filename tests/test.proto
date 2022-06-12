@@ -12,6 +12,7 @@ message TestMessage {
   float f32 = 5;
   SubMsg msg=7;
   uint32 u32x = 6;
+  bytes byteArray=10;
 }
 
 enum TestEnum{

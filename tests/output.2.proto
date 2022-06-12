@@ -1,0 +1,24 @@
+// 
+// This file is decompiled by depbjs v1.0.2.
+// source: ./tests/test.js
+// 
+
+syntax = "proto3";
+package test;
+
+
+message Msg {
+    int32 v1 = 1;
+    encode e1 = 2;
+    enum verify {
+        verify = 1;
+    };
+    message encode {
+        int32 encode = 1;
+    };
+};
+
+
+enum Enum {
+    E1 = 1;
+};

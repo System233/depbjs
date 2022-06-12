@@ -1,0 +1,33 @@
+// 
+// This file is decompiled by depbjs v1.0.2.
+// source: ./tests/test.js
+// 
+
+syntax = "proto3";
+package testPackage;
+
+
+message SubMsg {
+    int32 testSubmsg = 1;
+};
+
+
+message TestMessage {
+    message byteArray {
+    };
+    string testField = 1;
+    int32 i32 = 3;
+    int64 i64 = 2;
+    string str = 4;
+    float f32 = 5;
+    SubMsg msg = 7;
+    uint32 u32x = 6;
+    bytes byteArray = 10;
+};
+
+
+enum TestEnum {
+    Key = 1;
+    E2 = 20;
+    XX = 3;
+};
