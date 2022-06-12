@@ -1,11 +1,10 @@
 // 
-// This file is decompiled by depbjs v1.0.2.
+// This file is decompiled by depbjs v1.0.4.
 // source: ./tests/test.js
 // 
 
 syntax = "proto3";
 package test;
-
 
 message Msg {
     int32 v1 = 1;
@@ -17,7 +16,6 @@ message Msg {
         int32 encode = 1;
     };
 };
-
 
 enum Enum {
     E1 = 1;

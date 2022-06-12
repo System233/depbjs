@@ -211,8 +211,11 @@ $root.testPackage = (function() {
          * Properties of a TestMessage.
          * @memberof testPackage
          * @interface ITestMessage
-         * @property {string|null} [testField] TestMessage testField
+         * @property {Array.<string>|null} [testField] TestMessage testField
          * @property {number|null} [i32] TestMessage i32
+         * @property {Array.<number>|null} [i32repeated] TestMessage i32repeated
+         * @property {number|null} [i32optional] TestMessage i32optional
+         * @property {Array.<testPackage.ISubMsg>|null} [msgRepeated] TestMessage msgRepeated
          * @property {number|Long|null} [i64] TestMessage i64
          * @property {string|null} [str] TestMessage str
          * @property {number|null} [f32] TestMessage f32
@@ -230,6 +233,9 @@ $root.testPackage = (function() {
          * @param {testPackage.ITestMessage=} [properties] Properties to set
          */
         function TestMessage(properties) {
+            this.testField = [];
+            this.i32repeated = [];
+            this.msgRepeated = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -238,11 +244,11 @@ $root.testPackage = (function() {
 
         /**
          * TestMessage testField.
-         * @member {string} testField
+         * @member {Array.<string>} testField
          * @memberof testPackage.TestMessage
          * @instance
          */
-        TestMessage.prototype.testField = "";
+        TestMessage.prototype.testField = $util.emptyArray;
 
         /**
          * TestMessage i32.
@@ -251,6 +257,30 @@ $root.testPackage = (function() {
          * @instance
          */
         TestMessage.prototype.i32 = 0;
+
+        /**
+         * TestMessage i32repeated.
+         * @member {Array.<number>} i32repeated
+         * @memberof testPackage.TestMessage
+         * @instance
+         */
+        TestMessage.prototype.i32repeated = $util.emptyArray;
+
+        /**
+         * TestMessage i32optional.
+         * @member {number|null|undefined} i32optional
+         * @memberof testPackage.TestMessage
+         * @instance
+         */
+        TestMessage.prototype.i32optional = null;
+
+        /**
+         * TestMessage msgRepeated.
+         * @member {Array.<testPackage.ISubMsg>} msgRepeated
+         * @memberof testPackage.TestMessage
+         * @instance
+         */
+        TestMessage.prototype.msgRepeated = $util.emptyArray;
 
         /**
          * TestMessage i64.
@@ -300,6 +330,20 @@ $root.testPackage = (function() {
          */
         TestMessage.prototype.byteArray = $util.newBuffer([]);
 
+        // OneOf field names bound to virtual getters and setters
+        var $oneOfFields;
+
+        /**
+         * TestMessage _i32optional.
+         * @member {"i32optional"|undefined} _i32optional
+         * @memberof testPackage.TestMessage
+         * @instance
+         */
+        Object.defineProperty(TestMessage.prototype, "_i32optional", {
+            get: $util.oneOfGetter($oneOfFields = ["i32optional"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
         /**
          * Creates a new TestMessage instance using the specified properties.
          * @function create
@@ -324,12 +368,11 @@ $root.testPackage = (function() {
         TestMessage.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.testField != null && Object.hasOwnProperty.call(message, "testField"))
-                writer.uint32(/* id 1, wireType 2 =*/10).string(message.testField);
+            if (message.testField != null && message.testField.length)
+                for (var i = 0; i < message.testField.length; ++i)
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.testField[i]);
             if (message.i64 != null && Object.hasOwnProperty.call(message, "i64"))
                 writer.uint32(/* id 2, wireType 0 =*/16).int64(message.i64);
-            if (message.i32 != null && Object.hasOwnProperty.call(message, "i32"))
-                writer.uint32(/* id 3, wireType 0 =*/24).int32(message.i32);
             if (message.str != null && Object.hasOwnProperty.call(message, "str"))
                 writer.uint32(/* id 4, wireType 2 =*/34).string(message.str);
             if (message.f32 != null && Object.hasOwnProperty.call(message, "f32"))
@@ -340,6 +383,19 @@ $root.testPackage = (function() {
                 $root.testPackage.SubMsg.encode(message.msg, writer.uint32(/* id 7, wireType 2 =*/58).fork()).ldelim();
             if (message.byteArray != null && Object.hasOwnProperty.call(message, "byteArray"))
                 writer.uint32(/* id 10, wireType 2 =*/82).bytes(message.byteArray);
+            if (message.i32 != null && Object.hasOwnProperty.call(message, "i32"))
+                writer.uint32(/* id 31, wireType 0 =*/248).int32(message.i32);
+            if (message.i32repeated != null && message.i32repeated.length) {
+                writer.uint32(/* id 32, wireType 2 =*/258).fork();
+                for (var i = 0; i < message.i32repeated.length; ++i)
+                    writer.int32(message.i32repeated[i]);
+                writer.ldelim();
+            }
+            if (message.i32optional != null && Object.hasOwnProperty.call(message, "i32optional"))
+                writer.uint32(/* id 33, wireType 0 =*/264).int32(message.i32optional);
+            if (message.msgRepeated != null && message.msgRepeated.length)
+                for (var i = 0; i < message.msgRepeated.length; ++i)
+                    $root.testPackage.SubMsg.encode(message.msgRepeated[i], writer.uint32(/* id 34, wireType 2 =*/274).fork()).ldelim();
             return writer;
         };
 
@@ -375,10 +431,30 @@ $root.testPackage = (function() {
                 var tag = reader.uint32();
                 switch (tag >>> 3) {
                 case 1:
-                    message.testField = reader.string();
+                    if (!(message.testField && message.testField.length))
+                        message.testField = [];
+                    message.testField.push(reader.string());
                     break;
-                case 3:
+                case 31:
                     message.i32 = reader.int32();
+                    break;
+                case 32:
+                    if (!(message.i32repeated && message.i32repeated.length))
+                        message.i32repeated = [];
+                    if ((tag & 7) === 2) {
+                        var end2 = reader.uint32() + reader.pos;
+                        while (reader.pos < end2)
+                            message.i32repeated.push(reader.int32());
+                    } else
+                        message.i32repeated.push(reader.int32());
+                    break;
+                case 33:
+                    message.i32optional = reader.int32();
+                    break;
+                case 34:
+                    if (!(message.msgRepeated && message.msgRepeated.length))
+                        message.msgRepeated = [];
+                    message.msgRepeated.push($root.testPackage.SubMsg.decode(reader, reader.uint32()));
                     break;
                 case 2:
                     message.i64 = reader.int64();
@@ -433,12 +509,38 @@ $root.testPackage = (function() {
         TestMessage.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.testField != null && message.hasOwnProperty("testField"))
-                if (!$util.isString(message.testField))
-                    return "testField: string expected";
+            var properties = {};
+            if (message.testField != null && message.hasOwnProperty("testField")) {
+                if (!Array.isArray(message.testField))
+                    return "testField: array expected";
+                for (var i = 0; i < message.testField.length; ++i)
+                    if (!$util.isString(message.testField[i]))
+                        return "testField: string[] expected";
+            }
             if (message.i32 != null && message.hasOwnProperty("i32"))
                 if (!$util.isInteger(message.i32))
                     return "i32: integer expected";
+            if (message.i32repeated != null && message.hasOwnProperty("i32repeated")) {
+                if (!Array.isArray(message.i32repeated))
+                    return "i32repeated: array expected";
+                for (var i = 0; i < message.i32repeated.length; ++i)
+                    if (!$util.isInteger(message.i32repeated[i]))
+                        return "i32repeated: integer[] expected";
+            }
+            if (message.i32optional != null && message.hasOwnProperty("i32optional")) {
+                properties._i32optional = 1;
+                if (!$util.isInteger(message.i32optional))
+                    return "i32optional: integer expected";
+            }
+            if (message.msgRepeated != null && message.hasOwnProperty("msgRepeated")) {
+                if (!Array.isArray(message.msgRepeated))
+                    return "msgRepeated: array expected";
+                for (var i = 0; i < message.msgRepeated.length; ++i) {
+                    var error = $root.testPackage.SubMsg.verify(message.msgRepeated[i]);
+                    if (error)
+                        return "msgRepeated." + error;
+                }
+            }
             if (message.i64 != null && message.hasOwnProperty("i64"))
                 if (!$util.isInteger(message.i64) && !(message.i64 && $util.isInteger(message.i64.low) && $util.isInteger(message.i64.high)))
                     return "i64: integer|Long expected";
@@ -474,10 +576,34 @@ $root.testPackage = (function() {
             if (object instanceof $root.testPackage.TestMessage)
                 return object;
             var message = new $root.testPackage.TestMessage();
-            if (object.testField != null)
-                message.testField = String(object.testField);
+            if (object.testField) {
+                if (!Array.isArray(object.testField))
+                    throw TypeError(".testPackage.TestMessage.testField: array expected");
+                message.testField = [];
+                for (var i = 0; i < object.testField.length; ++i)
+                    message.testField[i] = String(object.testField[i]);
+            }
             if (object.i32 != null)
                 message.i32 = object.i32 | 0;
+            if (object.i32repeated) {
+                if (!Array.isArray(object.i32repeated))
+                    throw TypeError(".testPackage.TestMessage.i32repeated: array expected");
+                message.i32repeated = [];
+                for (var i = 0; i < object.i32repeated.length; ++i)
+                    message.i32repeated[i] = object.i32repeated[i] | 0;
+            }
+            if (object.i32optional != null)
+                message.i32optional = object.i32optional | 0;
+            if (object.msgRepeated) {
+                if (!Array.isArray(object.msgRepeated))
+                    throw TypeError(".testPackage.TestMessage.msgRepeated: array expected");
+                message.msgRepeated = [];
+                for (var i = 0; i < object.msgRepeated.length; ++i) {
+                    if (typeof object.msgRepeated[i] !== "object")
+                        throw TypeError(".testPackage.TestMessage.msgRepeated: object expected");
+                    message.msgRepeated[i] = $root.testPackage.SubMsg.fromObject(object.msgRepeated[i]);
+                }
+            }
             if (object.i64 != null)
                 if ($util.Long)
                     (message.i64 = $util.Long.fromValue(object.i64)).unsigned = false;
@@ -519,14 +645,17 @@ $root.testPackage = (function() {
             if (!options)
                 options = {};
             var object = {};
+            if (options.arrays || options.defaults) {
+                object.testField = [];
+                object.i32repeated = [];
+                object.msgRepeated = [];
+            }
             if (options.defaults) {
-                object.testField = "";
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, false);
                     object.i64 = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
                 } else
                     object.i64 = options.longs === String ? "0" : 0;
-                object.i32 = 0;
                 object.str = "";
                 object.f32 = 0;
                 object.u32x = 0;
@@ -538,16 +667,18 @@ $root.testPackage = (function() {
                     if (options.bytes !== Array)
                         object.byteArray = $util.newBuffer(object.byteArray);
                 }
+                object.i32 = 0;
             }
-            if (message.testField != null && message.hasOwnProperty("testField"))
-                object.testField = message.testField;
+            if (message.testField && message.testField.length) {
+                object.testField = [];
+                for (var j = 0; j < message.testField.length; ++j)
+                    object.testField[j] = message.testField[j];
+            }
             if (message.i64 != null && message.hasOwnProperty("i64"))
                 if (typeof message.i64 === "number")
                     object.i64 = options.longs === String ? String(message.i64) : message.i64;
                 else
                     object.i64 = options.longs === String ? $util.Long.prototype.toString.call(message.i64) : options.longs === Number ? new $util.LongBits(message.i64.low >>> 0, message.i64.high >>> 0).toNumber() : message.i64;
-            if (message.i32 != null && message.hasOwnProperty("i32"))
-                object.i32 = message.i32;
             if (message.str != null && message.hasOwnProperty("str"))
                 object.str = message.str;
             if (message.f32 != null && message.hasOwnProperty("f32"))
@@ -558,6 +689,23 @@ $root.testPackage = (function() {
                 object.msg = $root.testPackage.SubMsg.toObject(message.msg, options);
             if (message.byteArray != null && message.hasOwnProperty("byteArray"))
                 object.byteArray = options.bytes === String ? $util.base64.encode(message.byteArray, 0, message.byteArray.length) : options.bytes === Array ? Array.prototype.slice.call(message.byteArray) : message.byteArray;
+            if (message.i32 != null && message.hasOwnProperty("i32"))
+                object.i32 = message.i32;
+            if (message.i32repeated && message.i32repeated.length) {
+                object.i32repeated = [];
+                for (var j = 0; j < message.i32repeated.length; ++j)
+                    object.i32repeated[j] = message.i32repeated[j];
+            }
+            if (message.i32optional != null && message.hasOwnProperty("i32optional")) {
+                object.i32optional = message.i32optional;
+                if (options.oneofs)
+                    object._i32optional = "i32optional";
+            }
+            if (message.msgRepeated && message.msgRepeated.length) {
+                object.msgRepeated = [];
+                for (var j = 0; j < message.msgRepeated.length; ++j)
+                    object.msgRepeated[j] = $root.testPackage.SubMsg.toObject(message.msgRepeated[j], options);
+            }
             return object;
         };
 

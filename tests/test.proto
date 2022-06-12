@@ -5,8 +5,11 @@ message SubMsg{
     int32 testSubmsg=1;
 };
 message TestMessage {
-  string test_field = 1;
-  int32 i32 = 3;
+  repeated string test_field = 1;
+  int32 i32 = 31;
+  repeated int32 i32repeated = 32;
+  optional int32 i32optional = 33 ;
+  repeated SubMsg msgRepeated =34;
   int64 i64 = 2;
   string str = 4;
   float f32 = 5;

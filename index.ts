@@ -51,6 +51,7 @@ export const TopSearch = <T>(module: Program | Expression | Statement | ModuleDe
                 } else {
                     module = module.body as Statement[];
                 }
+                
             }
             else if (module.type == 'FunctionExpression') {
                 module = module.body.body;
@@ -154,7 +155,6 @@ export const LoadProtobufStaticModuleMessageDecode = (module: Program | Expressi
     const loader = (module: Array<Statement | Expression | ModuleDeclaration>, id: number): ProtobufMessageField => {
         for (const node of module) {
             if (node.type == 'ExpressionStatement') {
-                console.log(node);
                 const data = TopSearch(node.expression, x => loader(x, id), option);
                 if (data) {
                     return data;
@@ -172,7 +172,6 @@ export const LoadProtobufStaticModuleMessageDecode = (module: Program | Expressi
                     return data;
                 }
             }
-
 
             //type.field.push(reader.type())
             if (node.type == 'CallExpression'
@@ -269,7 +268,7 @@ export const LoadProtobufStaticModuleMessageDecode = (module: Program | Expressi
                         && cond.test.left.right.type == 'Literal'
                         && cond.test.left.right.value == 3) {
                         const id = cond.test.right.value;
-                        const data = loader([cond.consequent], id);
+                        const data = TopSearch(cond.consequent, x=>loader(x,id));
                         if (data) {
                             fields.push(data);
                         }
