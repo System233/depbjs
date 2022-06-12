@@ -73,7 +73,11 @@ const OPTIONS={
         message:'Show this message.'
     },
 };
+const showTitle=(help:boolean)=>{
+    (help?console.log:console.error)(`${displayName} ${version} (${refname}:${commit} ${time})`);
+}
 const showHelp=()=>{
+    showTitle(true);
     console.log(`${description}`);
     console.log('Option:')
     Object.entries(OPTIONS as Record<string,Option>).forEach(([name,value])=>{
@@ -119,11 +123,11 @@ const getOptions=()=>{
 }
 
 const main=async()=>{
-    console.log(`${displayName} ${version} (${refname}:${commit} ${time})`);
     const {options,inputs}=getOptions();
     if(options.help){
         showHelp();
     }else{
+        showTitle(false);
         const read=(path:string)=>{
             if(path=='-'){
                 process.stdin.setEncoding('utf-8');
