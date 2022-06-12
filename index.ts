@@ -3,7 +3,7 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import { Program, Expression, MemberExpression, Super, Identifier, Statement, Property } from 'estree'
+import { Program, Expression, MemberExpression, Super, Identifier, Statement, Property, ModuleDeclaration } from 'estree'
 
 export interface ProtobufStaticModuleInfo {
     Reader: string;
@@ -13,34 +13,37 @@ export interface ProtobufStaticModuleInfo {
 }
 export interface ProtobufMessageField {
     type: 'field';
-    dtype:string;
+    repeated?: boolean;
+    dtype: string;
     name: string;
     id: number;
 }
-export interface ProtobufEnumField{
+export interface ProtobufEnumField {
     type: 'efield';
     name: string;
-    value:number;
+    value: number;
 };
-export type ProtobufField=ProtobufMessageField|ProtobufEnumField;
+export type ProtobufField = ProtobufMessageField | ProtobufEnumField;
 export interface ProtobufType {
-    name:string;
-    type: 'message'|'enum',
-    children: Array<ProtobufType|ProtobufField>;
+    name: string;
+    type: 'message' | 'enum',
+    children: Array<ProtobufType | ProtobufField>;
 }
 
-export interface ProtobufModule{
-    name:string;
-    type:'module';
-    types:ProtobufType[]
+export interface ProtobufModule {
+    name: string;
+    type: 'module';
+    types: ProtobufType[]
 };
 
-export interface ProtobufJSON{
-    source:string;
-    module:ProtobufModule;
+export interface ProtobufJSON {
+    source: string;
+    module: ProtobufModule;
 }
-export const TopSearch = <T>(module: Program | Expression | Statement | Array<Statement | Expression>, callback: (module: Array<Statement | Expression>) => T, option?: { withArguments: boolean }): T => {
-    while (true) {
+export const TopSearch = <T>(module: Program | Expression | Statement | ModuleDeclaration | Array<Statement | Expression | ModuleDeclaration>,
+    callback: (module: Array<Statement | Expression | ModuleDeclaration>) => T,
+    option?: { withArguments?: boolean, noExpressionStatement?: boolean, noCallExpression?: boolean }): T => {
+    while (module) {
         if (!Array.isArray(module)) {
             if (module.type == 'Program') {
                 if (module.body.length == 1) {
@@ -55,13 +58,13 @@ export const TopSearch = <T>(module: Program | Expression | Statement | Array<St
             else if (module.type == 'ArrowFunctionExpression' && module.body.type == 'BlockStatement') {
                 module = module.body.body;
             }
-            else if (module.type == 'ExpressionStatement') {
+            else if (module.type == 'ExpressionStatement' && !option?.noExpressionStatement) {
                 module = module.expression;
             }
             else if (module.type == 'SequenceExpression') {
                 module = module.expressions;
             }
-            else if (module.type == 'CallExpression' && module.callee.type != 'Super') {
+            else if (module.type == 'CallExpression' && module.callee.type != 'Super' && !option?.noCallExpression) {
                 if (option?.withArguments) {
                     module = [module.callee, ...module.arguments.filter(x => x.type != 'SpreadElement') as (Expression | Statement)[]];
                 } else {
@@ -83,6 +86,9 @@ export const TopSearch = <T>(module: Program | Expression | Statement | Array<St
             else if (module.type == 'ObjectExpression') {
                 module = (module.properties.filter(x => x.type == 'Property') as Property[]).map(x => x.value).filter(x => x != null) as Expression[];
             }
+            else if (module.type == 'ExportNamedDeclaration') {
+                module = module.declaration;
+            }
             else {
                 return callback([module as Expression | Statement]);
             }
@@ -90,8 +96,9 @@ export const TopSearch = <T>(module: Program | Expression | Statement | Array<St
         }
         return callback(module);
     }
+    return callback([]);
 }
-export const CheckProtobufStaticModule = (module: Program | Expression | Statement | Array<Statement | Expression>): ProtobufStaticModuleInfo => {
+export const CheckProtobufStaticModule = (module: Program | Expression | Statement | ModuleDeclaration | Array<Statement | Expression | ModuleDeclaration>): ProtobufStaticModuleInfo => {
     return TopSearch(module, (module) => {
         const map = {
             Reader: null,
@@ -143,15 +150,62 @@ export const CheckProtobufStaticModule = (module: Program | Expression | Stateme
 }
 
 export const LoadProtobufStaticModuleMessageDecode = (module: Program | Expression | Statement | Array<Statement | Expression>): ProtobufMessageField[] => {
-
-    const loader = (module: Array<Statement | Expression>, id: number):ProtobufMessageField => {
+    const option = { noExpressionStatement: true, noCallExpression: true };
+    const loader = (module: Array<Statement | Expression | ModuleDeclaration>, id: number): ProtobufMessageField => {
         for (const node of module) {
             if (node.type == 'ExpressionStatement') {
-                const data = TopSearch(node.expression, x => loader(x, id));
+                console.log(node);
+                const data = TopSearch(node.expression, x => loader(x, id), option);
                 if (data) {
                     return data;
                 }
             }
+            if (node.type == 'WhileStatement') {
+                const data = TopSearch(node.body, x => loader(x, id), option);
+                if (data) {
+                    return data;
+                }
+            }
+            if (node.type == 'IfStatement') {
+                const data = TopSearch(node.consequent, x => loader(x, id), option) || TopSearch(node.alternate, x => loader(x, id), option);
+                if (data) {
+                    return data;
+                }
+            }
+
+
+            //type.field.push(reader.type())
+            if (node.type == 'CallExpression'
+                //(reader.type())
+                && node.arguments.length && node.arguments[0].type == 'CallExpression'
+                && node.arguments[0].callee.type == 'MemberExpression'
+                && node.arguments[0].callee.property.type == 'Identifier'
+
+                //type.field.push()
+                && node.callee.type == 'MemberExpression'
+                && node.callee.property.type == 'Identifier'
+                && node.callee.property.name == 'push'
+                && node.callee.object.type == 'MemberExpression'
+                && node.callee.object.property.type == 'Identifier') {
+                if (node.arguments[0].callee.object.type == 'MemberExpression'
+                    && node.arguments[0].callee.object.property.type == 'Identifier') {
+                    return {
+                        type: 'field',
+                        repeated: true,
+                        dtype: node.arguments[0].callee.object.property.name,
+                        name: node.callee.object.property.name,
+                        id
+                    }
+                }
+                return {
+                    type: 'field',
+                    repeated: true,
+                    dtype: node.arguments[0].callee.property.name,
+                    name: node.callee.object.property.name,
+                    id
+                }
+            }
+
             //x.field=reader.type()
             if (node.type == 'AssignmentExpression') {
                 if (node.left.type == 'MemberExpression'
@@ -160,19 +214,20 @@ export const LoadProtobufStaticModuleMessageDecode = (module: Program | Expressi
                     && node.right.callee.type == 'MemberExpression'
                     && node.right.callee.property.type == 'Identifier') {
 
+
                     //x.field=root.type.decode(reader)
                     if (node.right.callee.property.name == 'decode'
                         && node.right.callee.object.type == 'MemberExpression'
                         && node.right.callee.object.property.type == 'Identifier') {
                         return {
-                            type:'field',
+                            type: 'field',
                             dtype: node.right.callee.object.property.name,
                             name: node.left.property.name,
                             id
                         }
                     }
                     return {
-                        type:'field',
+                        type: 'field',
                         dtype: node.right.callee.property.name,
                         name: node.left.property.name,
                         id
@@ -223,34 +278,34 @@ export const LoadProtobufStaticModuleMessageDecode = (module: Program | Expressi
             }
         }
         return fields;
-    })
+    }, option)
 }
-export const LoadProtobufStaticModuleTypeData = (module: Program | Expression | Statement | Array<Statement | Expression>,name:string): ProtobufType => {
+export const LoadProtobufStaticModuleTypeData = (module: Program | Expression | Statement | Array<Statement | Expression>, name: string): ProtobufType => {
     return TopSearch(module, (module) => {
-        const type:ProtobufType={
+        const type: ProtobufType = {
             name,
-            type:'message',
-            children:[]
+            type: 'message',
+            children: []
         };
-        const merge=(data:ProtobufType)=>{
-            if(data.children.length){
-                type.type=data.type;
+        const merge = (data: ProtobufType) => {
+            if (data.children.length) {
+                type.type = data.type;
                 type.children.push(...data.children);
             }
         }
         for (const node of module) {
             if (node.type == 'ReturnStatement') {
-                merge(LoadProtobufStaticModuleTypeData(node.argument,name));
+                merge(LoadProtobufStaticModuleTypeData(node.argument, name));
             }
             if (node.type == 'ExpressionStatement') {
-                merge(LoadProtobufStaticModuleTypeData(node.expression,name));
+                merge(LoadProtobufStaticModuleTypeData(node.expression, name));
             }
             //type.decode=function(){};
             if (node.type == 'AssignmentExpression' && node.left.type == 'MemberExpression' && node.left.property.type == 'Identifier') {
                 //type.nestedType=(function(){})();
-                if(node.right.type=='CallExpression'&&node.left.object.type=='Identifier'){
-                    type.children.push(LoadProtobufStaticModuleTypeData(node.right,node.left.property.name))
-                } else if(node.left.property.name == 'decode'){
+                if (node.right.type == 'CallExpression' && node.left.object.type == 'Identifier') {
+                    type.children.push(LoadProtobufStaticModuleTypeData(node.right, node.left.property.name))
+                } else if (node.left.property.name == 'decode') {
                     type.children.push(...LoadProtobufStaticModuleMessageDecode(node.right));
                 }
             }
@@ -261,11 +316,11 @@ export const LoadProtobufStaticModuleTypeData = (module: Program | Expression | 
                 && node.left.property.type == 'AssignmentExpression'
                 && node.left.property.right.type == 'Literal'
                 && typeof node.left.property.right.value == 'string') {
-                    type.type='enum',
+                type.type = 'enum',
                     type.children.push({
-                        type:'efield',
-                        name:node.left.property.right.value,
-                        value:node.right.value
+                        type: 'efield',
+                        name: node.left.property.right.value,
+                        value: node.right.value
                     });
             }
         }
@@ -282,33 +337,39 @@ export const LoadProtobufStaticModuleType = (module: Program | Expression | Stat
             }
             //package.type=(function{})();
             if (node.type == 'AssignmentExpression' && node.left.type == 'MemberExpression' && node.left.property.type == 'Identifier') {
-                result.push(LoadProtobufStaticModuleTypeData(node.right,node.left.property.name));
+                result.push(LoadProtobufStaticModuleTypeData(node.right, node.left.property.name));
             }
         }
         return result;
     });
 }
-export const LoadProtobufStaticModule = (module: Program | Expression | Statement | Array<Statement | Expression>, info: ProtobufStaticModuleInfo): ProtobufModule[] => {
-    
+export const LoadProtobufStaticModule = (module: Program | Expression | Statement | ModuleDeclaration | Array<Statement | Expression | ModuleDeclaration>, info: ProtobufStaticModuleInfo): ProtobufModule[] => {
+    if (!info.roots) {
+        return [];
+    }
     return TopSearch(module, (module) => {
-        const modules:ProtobufModule[]=[];
+        const modules: ProtobufModule[] = [];
         for (const node of module) {
             if (node.type == 'ExpressionStatement') {
                 modules.push(...LoadProtobufStaticModule(node.expression, info));
             }
+            if (node.type == 'ExportNamedDeclaration') {
+                modules.push(...LoadProtobufStaticModule(node.declaration, info));
+            }
+
             //$roots.package=(function(){})();
             if (node.type == 'AssignmentExpression' && node.left.type == 'MemberExpression' && node.left.object.type == 'Identifier' && node.left.object.name == info.roots && node.left.property.type == 'Identifier') {
                 modules.push({
-                    name:node.left.property.name,
-                    type:'module',
-                    types:LoadProtobufStaticModuleType(node.right)
+                    name: node.left.property.name,
+                    type: 'module',
+                    types: LoadProtobufStaticModuleType(node.right)
                 })
             }
         }
         return modules;
-    })
+    }, { noExpressionStatement: true })
 }
-export const SearchModule = (module: Program | Expression | Statement, depth: number): ProtobufModule[] => {
+export const SearchModule = (module: Program | Expression | Statement | ModuleDeclaration, depth: number): ProtobufModule[] => {
     if (depth <= 0) {
         return [];
     }
@@ -322,24 +383,24 @@ export const SearchModule = (module: Program | Expression | Statement, depth: nu
 export const ToProtoString = (module: ProtobufModule, space?: number) => {
     const newline = space ? '\n' : '';
     const step = Array.from({ length: space }, () => ' ').join('');
-    const dumpField=(type:ProtobufType|ProtobufField,indent:string)=>{
-        if(type.type=='field'){
-            return `${indent}${type.dtype} ${type.name} = ${type.id};`;
+    const dumpField = (type: ProtobufType | ProtobufField, indent: string) => {
+        if (type.type == 'field') {
+            return `${indent}${type.repeated ? 'repeated ' : ''}${type.dtype} ${type.name} = ${type.id};`;
         }
-        else if(type.type=='efield'){
+        else if (type.type == 'efield') {
             return `${indent}${type.name} = ${type.value};`;
         }
-        return dumpType(type,indent);
+        return dumpType(type, indent);
     }
-    const dumpType=(type:ProtobufType,indent:string=newline)=>{
-        if(type.type=='message'||type.type=='enum'){
-            return `${indent}${type.type} ${type.name} {${type.children.map(field => dumpField(field,indent+step)).join('')}${indent}};`;
+    const dumpType = (type: ProtobufType, indent: string = newline) => {
+        if (type.type == 'message' || type.type == 'enum') {
+            return `${indent}${type.type} ${type.name} {${type.children.map(field => dumpField(field, indent + step)).join('')}${indent}};`;
         }
         return `${indent}// error type: ${(type as any)?.type}`;
     }
     return [
         `syntax = "proto3";\npackage ${module.name};`,
-        module.types.map(x=>dumpType(x)),
+        module.types.map(x => dumpType(x)),
     ].flat().join(newline);
 }
 
