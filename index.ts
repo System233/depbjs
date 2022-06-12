@@ -246,10 +246,9 @@ export const LoadProtobufStaticModuleTypeData = (module: Program | Expression | 
                 merge(LoadProtobufStaticModuleTypeData(node.expression,name));
             }
             //type.decode=function(){};
-            if (node.type == 'AssignmentExpression' && node.left.type == 'MemberExpression' && node.left.property.type == 'Identifier'&&node.left.object.type=='Identifier') {
+            if (node.type == 'AssignmentExpression' && node.left.type == 'MemberExpression' && node.left.property.type == 'Identifier') {
                 //type.nestedType=(function(){})();
-                if(node.right.type=='CallExpression'){
-                    console.log(name,node)
+                if(node.right.type=='CallExpression'&&node.left.object.type=='Identifier'){
                     type.children.push(LoadProtobufStaticModuleTypeData(node.right,node.left.property.name))
                 } else if(node.left.property.name == 'decode'){
                     type.children.push(...LoadProtobufStaticModuleMessageDecode(node.right));
